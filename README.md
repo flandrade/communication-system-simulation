@@ -39,7 +39,7 @@ This simulation codifies the message using the following methods:
 - Convolutional codes: hard decision
 
 ## Modulation
-This module modulates the message according the codification, and it plots the constellation for the selected modulation. 
+This module modulates the message according the codification, and it plots the constellation for the selected modulation.
 
 #### Options
 **option_modulation**: modulation processes. Available options:
@@ -48,7 +48,7 @@ This module modulates the message according the codification, and it plots the c
 - 3 - BPSK and QPSK
 
 #### Output
-Message modulated according the modulation selected:
+Message modulated according to the selected modulation:
 
 **BPSK variables**: bitsm1 (no codification), bitsm2 (Hamming), bitsm3 (Convolutionl)
 
@@ -60,7 +60,7 @@ This module uses a loop in order to simulate an AWGN channel with several Eb/N0 
 Demodulation and decodification are performed in this loop. The program plots the BER curves of several codification algorithms.
 
 ### Output
-Probability of error gives the average rate of occurrence of decoding errors. Pe error for the codification algorithms according the modulation selected:
+Probability of error gives the average rate of occurrence of decoding errors. Pe error for the codification algorithms according to the selected modulation:
 
 **BPSK variables**: errorpe_bpsk_nocod (no codification), errorpe_bpsk_hamming (Hamming), errorpe_bpsk_hard (Convolutionl: Hard decision), errorpe_bpsk_soft (Convolutional: Soft decision)
 
