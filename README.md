@@ -38,7 +38,7 @@ This simulation codifies the message using the following methods:
 - Convolutional codes: soft decision
 - Convolutional codes: hard decision
 
-### Modulation
+## Modulation
 This module modulates the message according the codification.
 
 #### Options
