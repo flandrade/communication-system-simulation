@@ -39,7 +39,7 @@ This simulation codifies the message using the following methods:
 - Convolutional codes: hard decision
 
 ## Modulation
-This module modulates the message according the codification.
+This module modulates the message according the codification, and it plots the constellation for the selected modulation. 
 
 #### Options
 **option_modulation**: modulation processes. Available options:
