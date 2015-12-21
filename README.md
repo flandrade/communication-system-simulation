@@ -59,7 +59,7 @@ This module uses a loop in order to simulate an AWGN channel with several Eb/N0 
 
 Demodulation and decodification are performed in this loop. The program plots the BER curves of several codification algorithms.
 
-### Output
+#### Output
 Probability of error gives the average rate of occurrence of decoding errors. Pe error for the codification algorithms according to the selected modulation:
 
 **BPSK variables**: errorpe_bpsk_nocod (no codification), errorpe_bpsk_hamming (Hamming), errorpe_bpsk_hard (Convolutionl: Hard decision), errorpe_bpsk_soft (Convolutional: Soft decision)
