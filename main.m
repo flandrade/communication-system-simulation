@@ -18,19 +18,19 @@ clc
 level=32;
 
 %TYPE OF QUANTIZATION
-% Choose to graph: 
+% Choose to graph:
 % 1 = Univorm
 % 2 = Mu-law
 % 3 = A-Law
-option_quantization=1; 
+option_quantization=1;
 
 %----------------- Modulation ---------------------------------------------
 %TYPE OF MODULATION
-% Choose to graph: 
+% Choose to graph:
 % 1 = BPSK
 % 2 = QPSK
 % 3 = BPSK and QPSK
-option_modulation=3; 
+option_modulation=3;
 
 %%
 %--------------------------------------------------------------------------
@@ -70,7 +70,7 @@ pause(3);
 %Quantization error
 quantization_error = strcat(num2str(errorcuantizacion),' %')
 
-%Variables to plot 
+%Variables to plot
 xg=x2; yq=y1;
 xq=x; fmq=fm;
 
@@ -90,7 +90,7 @@ xlabel('samples')
 ylabel('x(t)')
 title('Input signal with level')
 
-%Ploting input signal quantized 
+%Ploting input signal quantized
 subplot(2,1,2)
 plot(xq)
 axis([ 0 4500 min(xq) max(xq)])
@@ -113,17 +113,17 @@ for i=1:size(bits,1)
     for j=1:size(bits,2)
         tem=[tem bits(i,j)];
     end
-end 
+end
 bitsc1=tem;
 
-%--------------------- HAMMING 7,4 ---------------------------------------- 
+%--------------------- HAMMING 7,4 ----------------------------------------
 % Dimensiones y matrices
-n=7; 
-k=4; 
+n=7;
+k=4;
 
 %P matrix
 P=[1 1 0; 0 1 1; 1 1 1; 1 0 1];
-    
+
 %Matrix generator
 identity=eye(k);
 G=[P identity];
@@ -137,23 +137,23 @@ while(div<tamanio)
     %Divide message in packets
     m=bitsc1(div:div+3);
     div=div+4;
-    
+
     %Matrix c=mG
     c=mod(m*G,2);
     matrizc=[matrizc c];
 end
 
-%--------------------- CONVOLUTIONAL CODE --------------------------------- 
+%--------------------- CONVOLUTIONAL CODE ---------------------------------
 %Generator matrix
-g=[1 0 1;1 1 1]; 
+g=[1 0 1;1 1 1];
 
 %Codification
-bits_conv=Cnv_encd(g,1,bitsc1); 
+bits_conv=Cnv_encd(g,1,bitsc1);
 
 %%
 %--------------------------------------------------------------------------
 %----------------------- MODULATION ---------------------------------------
-%-------------------------------------------------------------------------- 
+%--------------------------------------------------------------------------
 % Array to plot constellation
 switch option_modulation
     case 1
@@ -171,24 +171,24 @@ end
 %PLOT
 %Plot axis
 figure(3)
-plot([-2 2],[0 0],'b'); 
+plot([-2 2],[0 0],'b');
 hold on
-plot([0 0 ],[-2 2],'b'); 
+plot([0 0 ],[-2 2],'b');
 
 %Plot constellation
 for i=1:size(constellationArray,1)
     hold on
-    p=plot(constellationArray(i,1),constellationArray(i,2),'*');    
+    p=plot(constellationArray(i,1),constellationArray(i,2),'*');
     set(p,'Color','red','LineWidth',2);
     if option_modulation==3 && i<3
         hold on
-    	p1=plot(constellationArray1(i,1),constellationArray1(i,2),'*');    
+    	p1=plot(constellationArray1(i,1),constellationArray1(i,2),'*');
         set(p1,'Color','black','LineWidth',2);
-    end    
+    end
 end
 
 title(strcat('Constellation Diagram: ', modulation_name))
-axis([-2 2 -2 2])  
+axis([-2 2 -2 2])
 
 %--------------------- MODULATION WITH NO CODIFICATION --------------------
 %Modulation BPSK
@@ -228,12 +228,12 @@ pet2q=[]; %Hamming 7,4
 pet3q=[]; %Convolutional Hard
 
 %Data for Hamming codes
-n=7; 
-k=4; 
+n=7;
+k=4;
 
 %Matriz x (Hamming)
 P=[1 1 0; 0 1 1; 1 1 1; 1 0 1];
-    
+
 %Generator matrix (Hamming)
 Identidad=eye(k);
 G=[P Identidad];
@@ -248,7 +248,7 @@ t1=[zeros(1,n); Identidad];
 tabla=t1*H';
 
 %Generator matrix for Convolutional codes
-g=[1 0 1;1 1 1]; 
+g=[1 0 1;1 1 1];
 
 % Eb/N0 The energy per bit to noise power spectral density ratio
 % 1 to 6 where 6 is the least noisy
@@ -256,10 +256,10 @@ ebn0db=0:1:6;
 
 %--------------------- LOOP TO PLOT BER -----------------------------------
 for eb=ebn0db
-    %AWGN Channel 
+    %AWGN Channel
     ebn0=10^(eb/10);
     sigma=1/sqrt(2*ebn0);
-    
+
     %Variables to caculate error (no codification)
     %BPSK
     error1=0;
@@ -267,7 +267,7 @@ for eb=ebn0db
     %QPSK
     error1q=0;
     pe1q=[];
-    
+
     %Variables to caculate error (Hamming 7, 4)
     %BPSK
     error2=0;
@@ -283,17 +283,17 @@ for eb=ebn0db
     %QPSK
     error3q=0;
     pe3q=[];
-    
+
     %Variables to caculate error (Convolutional codes, soft decision)
     %BPSK
     error4=0;
     pe4=[];
-    
+
         for numiter=1:5
-        
+
             %--------------- NO CODIFICATION ------------------------------
             N=size(bitsm1,2);
-            
+
             % CALCULATE FOR BPSK MODULATION
             if option_modulation==1 || option_modulation==3
                 %AWGN Channel (BPSK)
@@ -306,9 +306,9 @@ for eb=ebn0db
 
                 %BER - no codification (BPSK)
                 error1=error1+sum(xor(bitsc1,bitsr1));
-                pe1=[pe1 sum(xor(bitsc1,bitsr1))/N]; 
+                pe1=[pe1 sum(xor(bitsc1,bitsr1))/N];
             end
-            
+
             % CALCULATE FOR QPSK MODULATION
             if option_modulation==2 || option_modulation==3
                 %AWGN Channel (QPSK)
@@ -320,36 +320,36 @@ for eb=ebn0db
                 datosRX(:,1)=bitsmqpsk1(:,1)+ruidoReal'; %real value + noise
                 datosRX(:,2)=bitsmqpsk1(:,2)+ruidoImaginario'; %imaginary value + value
 
-                %QPSK demodulation 
+                %QPSK demodulation
                 bitsr1q=demod_qpsk(datosRX);
 
                 %BER - codification (QPSK)
                 error1q=error1q+sum(xor(bitsc1,bitsr1q));
-                pe1q=[pe1q sum(xor(bitsc1,bitsr1q))/num];  
+                pe1q=[pe1q sum(xor(bitsc1,bitsr1q))/num];
             end
-            
+
             %--------------- HAMMING 7,4 ----------------------------------
             N=size(bitsm2,2);
-             
+
             % CALCULATE FOR BPSK MODULATION
             if option_modulation==1 || option_modulation==3
-                
+
                 %AWGN Channel (BPSK)
                 ruido=normrnd(0,sigma,1,N);
-                y2=bitsm2+ruido; 
+                y2=bitsm2+ruido;
 
                 %BPSK demodulation
                 bitsmr2=sign(y2);
                 bitsr2=(bitsmr2+1)/2;
-                
+
                 %Variables to divide message in packets
                 % message + parity bit
                 tamanio=size(bitsr2,2);
                 div=1; %message + parity bit
-        
+
                 bitsr=[]; %decoded matrix - only message
-        
-                while(div<tamanio)            
+
+                while(div<tamanio)
                     %Divide message into packets
                     bits2=bitsr2(div:div+6);
 
@@ -368,17 +368,17 @@ for eb=ebn0db
                     %Message decoded
                     b=bits2(4:7);
                     bitsr=[bitsr b];
-                    
+
                    %Increase div
                     div=div+7;
                 end
-                
+
                 %BER - Hamming 7,4 (BPSK)
                 error2=error2+sum(xor(bitsc1,bitsr));
                 pe2=[pe2 sum(xor(bitsc1,bitsr))/N];
-                
-            end    
-                
+
+            end
+
             % CALCULATE FOR QPSK MODULATION
             if option_modulation==2 || option_modulation==3
                 %Noise generation (QPSK)
@@ -391,16 +391,16 @@ for eb=ebn0db
                 datosRX2(:,2)=bitsmqpsk2(:,2)+ruidoImaginario'; %imaginary value + noise
 
                 %QPSK demodulation
-                bitsr2q=demod_qpsk(datosRX2);                           
-        
+                bitsr2q=demod_qpsk(datosRX2);
+
                 %Variables to divide message in packets
                 % message + parity bit
                 tamanio=size(bitsr2q,2);
                 div=1; %message + parity bit
-        
+
                 bitsrq=[]; %decoded matrix - only message (QPSK)
-        
-                while(div<tamanio)            
+
+                while(div<tamanio)
 
                     %Division of message into packets
                     bits2q=bitsr2q(div:div+6);
@@ -410,34 +410,34 @@ for eb=ebn0db
                         if tabla(i,:)==sindromeq
                             if i~=1
                                 bits2q(i-1)=~bits2q(i-1);
-                            end    
+                            end
                         end
                     end
-                    
+
                     %Message decoded
                     bq=bits2q(4:7);
                     bitsrq=[bitsrq bq];
-                    
+
                     %Increase div
                     div=div+7;
                 end
-        
+
                 %BER - Hamming 7,4 (QPSK)
                 error2q=error2q+sum(xor(bitsc1,bitsrq));
                 pe2q=[pe2q sum(xor(bitsc1,bitsrq))/N];
             end
 
-            
+
             %--------------- CONVOLUTIONAL CODES --------------------------
             N=size(bitsm3,2);
-            
+
             % CALCULATE FOR BPSK MODULATION
             if option_modulation==1 || option_modulation==3
                 %AWGN Channel (BPSK)
                 ruidoReal=normrnd(0,sigma,1,N);
                 ruidoImaginario=normrnd(0,sigma,1,N);
                 ruido=ruidoReal+1i*ruidoImaginario;
-            
+
                 y4=bitsm3+ruido;
 
                 %BPSK demodulation (hard decision)
@@ -449,16 +449,16 @@ for eb=ebn0db
 
                 %BER - Hard decision (BPSK)
                 error3=error3+sum(xor(bitsc1,bits3));
-                pe3=[pe3 sum(xor(bitsc1,bits3))/N]; 
-                
+                pe3=[pe3 sum(xor(bitsc1,bits3))/N];
+
                 %Soft decision decodification
-                bits4=viterbi_s(g,1,y4);   
+                bits4=viterbi_s(g,1,y4);
 
                 %BER - soft decision (BPSK)
                 error4=error4+sum(xor(bitsc1,bits4));
                 pe4=[pe4 sum(xor(bitsc1,bits4))/N];
             end
-            
+
             % CALCULATE FOR QPSK MODULATION
             if option_modulation==2 || option_modulation==3
                 %AWGN Channel (QPSK)
@@ -478,13 +478,13 @@ for eb=ebn0db
 
                 %BER of hard decision (QPSK)
                 error3q=error3q+sum(xor(bitsc1,bits3q));
-                pe3q=[pe3q sum(xor(bitsc1,bits3q))/N];  
-                pe1q=[pe1q sum(xor(bitsc1,bitsr1q))/num]; 
-          
+                pe3q=[pe3q sum(xor(bitsc1,bits3q))/N];
+                pe1q=[pe1q sum(xor(bitsc1,bitsr1q))/num];
+
             end
-            
+
         end
-        
+
         %BPSK
         if option_modulation==1 || option_modulation==3
             pet1=[pet1 mean(pe1)];
@@ -492,7 +492,7 @@ for eb=ebn0db
             pet3=[pet3 mean(pe3)];
             pet4=[pet4 mean(pe4)];
         end
-        
+
         %QPSK
         if option_modulation==2 || option_modulation==3
         pet1q=[pet1q mean(pe1q)];
@@ -500,11 +500,27 @@ for eb=ebn0db
         pet3q=[pet3q mean(pe3q)];
         end
 end
-  
-%PLOT 
+
+%Pe error (Probability of error)
+%It gives the average rate of occurrence of decoding errors.
+%BPSK
+if option_modulation==1 || option_modulation==3
+    errorpe_bpsk_nocod=mean(pet1)
+    errorpe_bpsk_hamming=mean(pet2)
+    errorpe_bpsk_hard=mean(pet3)
+    errorpe_bpsk_soft=mean(pet4)
+end
+%QPSK
+if option_modulation==2 || option_modulation==3
+    errorpe_qpsk_nocod=mean(pet1q)
+    errorpe_qpsk_hamming=mean(pet2q)
+    errorpe_qpsk_hard=mean(pet3q)
+end
+
+%PLOT
 %BER according modulation
 figure(4)
-switch option_modulation 
+switch option_modulation
     case 1
         semilogy(ebn0db,pet1,'ko-');
         hold on;
@@ -520,22 +536,20 @@ switch option_modulation
         hleg = legend('No codification','Hamming','Hard','Soft');
         set(hleg,'Location','EastOutside')
         grid on;
-    case 2     
+    case 2
         semilogy(ebn0db,pet1q,'ko-');
         hold on;
         semilogy(ebn0db,pet2q,'rx-');
         hold on;
         semilogy(ebn0db,pet3q,'b+-');
-        hold on;
-        semilogy(ebn0db,pet4,'g*-');
         xlabel('Eb/N0, dB')
         ylabel('Bit Error Rate')
         title('BER Curves (QPSK)')
         ylim([10^(-4) 10^(-1)]);
-        hleg = legend('No codification','Hamming','Hard', 'Soft');
+        hleg = legend('No codification','Hamming','Hard');
         set(hleg,'Location','EastOutside')
         grid on;
-    case 3 
+    case 3
         semilogy(ebn0db,pet1,'r');
         hold on;
         semilogy(ebn0db,pet2,'b');
@@ -555,7 +569,5 @@ switch option_modulation
         ylim([10^(-4) 10^(-1)]);
         hleg = legend('No codification (BPSK)','Hamming (BPSK)','Hard (BPSK)', 'Soft (BPSK)','No codification (QPSK)','Hamming (QPSK)','Hard (QPSK)');
         set(hleg,'Location','EastOutside')
-        grid on;  
+        grid on;
 end
-        
-
