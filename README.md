@@ -64,7 +64,7 @@ Probability of error gives the average rate of occurrence of decoding errors. Pe
 
 **BPSK variables**: errorpe_bpsk_nocod (no codification), errorpe_bpsk_hamming (Hamming), errorpe_bpsk_hard (Convolutionl: Hard decision), errorpe_bpsk_soft (Convolutional: Soft decision)
 
-**QPSK variables**: errorpe_qpsk_nocod (no codification), errorpe_qpsk_hamming (Hamming), errorpe_qpsk_hard (Convolutionl: Hard decision)
+**QPSK variables**: errorpe_qpsk_nocod (no codification), errorpe_qpsk_hamming (Hamming), errorpe_qpsk_hard (Convolutional: Hard decision)
 
 ## Graphs
 
